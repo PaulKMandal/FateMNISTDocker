@@ -4,6 +4,8 @@ from fate_client import init
 from fate_client import components
 from fate_client import submit_job
 
+print('classifier loading')
+
 # Define the parties and roles
 guest_party = {"name": "guest", "id": 9999}
 host_party = {"name": "host", "id": 10000}
