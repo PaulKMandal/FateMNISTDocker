@@ -1,0 +1,47 @@
+version: '3'
+services:
+  fateflow:
+    image: federatedai/fate-flow:latest
+    container_name: fateflow
+    ports:
+      - 9380:9380
+    environment:
+      - PYTHONPATH=/data/projects/fate/python
+    volumes:
+      - ./fate:/data/projects/fate
+      - ./fate_flow_db:/data/projects/fate_flow_db
+    command: python fate_flow/fate_flow_server.py
+
+  eggroll:
+    image: federatedai/eggroll:latest
+    container_name: eggroll
+    environment:
+      - ROLL_PAIR=1
+      - EGGROLL_LOG_DIR=/data/projects/eggroll/logs
+      - PYTHONPATH=/data/projects/eggroll/python
+    volumes:
+      - ./eggroll:/data/projects/eggroll
+      - ./eggroll_logs:/data/projects/eggroll/logs
+    command: eggroll-proxy
+
+  partya:
+    image: my-fate-model
+    container_name: partya
+    environment:
+      - PYTHONPATH=/data/projects/fate/python
+      - MNIST_PATH=/data/projects/fate_data/mnist
+    volumes:
+      - ./fate:/data/projects/fate
+      - ./fate_data:/data/projects/fate_data
+    command: python train.py partya 1
+
+  partyb:
+    image: my-fate-model
+    container_name: partyb
+    environment:
+      - PYTHONPATH=/data/projects/fate/python
+      - MNIST_PATH=/data/projects/fate_data/mnist
+    volumes:
+      - ./fate:/data/projects/fate
+      - ./fate_data:/data/projects/fate_data
+    command: python train.py partyb 1
