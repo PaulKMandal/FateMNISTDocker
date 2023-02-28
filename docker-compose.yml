@@ -44,4 +44,4 @@ services:
     volumes:
       - ./fate:/data/projects/fate
       - ./fate_data:/data/projects/fate_data
-    command: python train.py partyb 1
+    command: python classifier.py partyb 1
